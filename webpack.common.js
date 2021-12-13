@@ -3,8 +3,10 @@ const HtmlWebPackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
+    target: "web",
     output: {
         path: path.resolve(__dirname, "dist"),
+        publicPath: "/",
     },
     module: {
         rules: [{
@@ -25,13 +27,8 @@ module.exports = {
                 use: [MiniCssExtractPlugin.loader, "css-loader"],
             },
             {
-                test: /\.(svg|png|jpe?g|ico)$/i,
-                use: {
-                    loader: "file-loader",
-                    options: {
-                        name: "./img/[name].[ext]",
-                    },
-                },
+                test: /\.svg$/,
+                type: "asset/resource",
             },
         ],
     },
@@ -39,7 +36,6 @@ module.exports = {
         new HtmlWebPackPlugin({
             template: "./src/index.html",
             filename: "./index.html",
-            favicon: "./src/favicon.ico",
         }),
         new MiniCssExtractPlugin({
             filename: "[name].css",
